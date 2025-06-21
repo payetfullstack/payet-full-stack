@@ -2,14 +2,14 @@
 
 ## Create a Python Virtual Environment
 
-This project works with Python v3.10.11.
+This project works with Python v3.12.3.
 
 To create a local python environment, run:
-```python -m venv venv```
+```python3 -m venv venv```
 
 To activate it, you can run:
 
-```.\venv\Scripts\activate```
+```source venv/bin/activate```
 
 ## Install dependencies
 
