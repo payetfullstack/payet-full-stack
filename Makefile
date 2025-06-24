@@ -8,7 +8,7 @@ run_backend:
 
 test_integration:
 	echo "Running integration tests..."
-	. $(VENV) && pytest tests/integration/
+	. $(VENV) && pytest app/tests/integration/
 
 install:
 	echo "Installing dependencies..."
