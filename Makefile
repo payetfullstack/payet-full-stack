@@ -4,7 +4,7 @@ VENV=venv/bin/activate
 
 run_backend:
 	echo "Running FastAPI with Uvicorn..."
-	. $(VENV) && uvicorn main:app --reload
+	. $(VENV) && uvicorn app.main:app --reload --log-level debug
 
 test_integration:
 	echo "Running integration tests..."
