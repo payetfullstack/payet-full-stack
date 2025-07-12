@@ -10,6 +10,7 @@ load_dotenv()
 app = FastAPI()
 app.include_router(metadata.router)
 
+# Common logs fore each request. Already in Render
 if os.getenv("DEBUG_MODE", 0):
     app.add_middleware(LoggingMiddleware)
 

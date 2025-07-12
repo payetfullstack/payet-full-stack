@@ -13,6 +13,10 @@ To activate it, you can run:
 
 ## Install dependencies
 
+```make install```
+
+or
+
 ```pip install -r requirements.txt```
 
 ## Download first FastAPI version. DO NOT REPLICATE
