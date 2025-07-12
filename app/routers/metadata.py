@@ -1,5 +1,4 @@
 import os
-from pickletools import pydict
 from app.utils.dicom_utils import find_first_dicom
 from app.utils.zip_utils import safe_extract_zip
 from fastapi import APIRouter, Depends, UploadFile, HTTPException

@@ -1,3 +1,4 @@
+import os
 from app.utils.logger import LoggingMiddleware
 from fastapi import FastAPI, Response
 from .routers import metadata
@@ -8,10 +9,12 @@ load_dotenv()
 
 app = FastAPI()
 app.include_router(metadata.router)
-app.add_middleware(LoggingMiddleware)
+
+if os.getenv("DEBUG_MODE", 0):
+    app.add_middleware(LoggingMiddleware)
 
 
-@app.head('/')
+@app.head("/")
 @app.get("/")
 def main_root():
     """
