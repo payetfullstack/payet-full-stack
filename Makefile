@@ -6,9 +6,9 @@ run_backend:
 	echo "Running FastAPI with Uvicorn..."
 	. $(VENV) && uvicorn app.main:app --reload --log-level debug
 
-test_integration:
-	echo "Running integration tests..."
-	. $(VENV) && pytest app/tests/integration/
+test_unit:
+	echo "Running unit tests..."
+	. $(VENV) && pytest app/tests/unit/
 
 install:
 	echo "Installing dependencies..."
