@@ -13,6 +13,6 @@ app = FastAPI()
 app.include_router(metadata.router)
 app.add_middleware(LoggingMiddleware)
 
-@app.get("/", dependencies=[Depends(get_rapidapi_token_header)])
+@app.get("/")
 def read_root():
     return HEALTHCHECK_RESPONSE
