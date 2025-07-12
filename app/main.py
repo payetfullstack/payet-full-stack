@@ -1,10 +1,7 @@
-from app.dependencies import get_rapidapi_token_header
 from app.utils.logger import LoggingMiddleware
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI, Response
 from .routers import metadata
 from dotenv import load_dotenv
-
-HEALTHCHECK_RESPONSE = {"message": "App is running"}
 
 # Load env variables from .env
 load_dotenv()
@@ -13,6 +10,12 @@ app = FastAPI()
 app.include_router(metadata.router)
 app.add_middleware(LoggingMiddleware)
 
+
+@app.head('/')
 @app.get("/")
-def read_root():
-    return HEALTHCHECK_RESPONSE
+def main_root():
+    """
+    Root endpoint is used by Render to verify that the server is running.
+    Reder calls both the HEAD and GET endpoints, so we need to manage both
+    """
+    return Response(status_code=200)
