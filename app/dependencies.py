@@ -1,8 +1,7 @@
-from typing import Annotated
-
-from fastapi import Header, HTTPException, Request
+from fastapi import HTTPException, Request
 import os
 
+INVALID_HEADER_ERROR_MESSAGE = "Invalid header"
 
 async def get_rapidapi_token_header(request: Request):
     """
@@ -24,4 +23,4 @@ async def get_rapidapi_token_header(request: Request):
     rapidapi_secret = all_headers.get(x_rapidapi_proxy_secret_name.lower(), None)
 
     if not rapidapi_secret or rapidapi_secret !=  x_rapidapi_proxy_secret_value:
-        raise HTTPException(status_code=401, detail="Invalid header")
+        raise HTTPException(status_code=401, detail=INVALID_HEADER_ERROR_MESSAGE)
