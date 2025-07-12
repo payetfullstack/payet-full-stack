@@ -1,3 +1,4 @@
+from http import HTTPStatus
 import logging
 import time
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -22,17 +23,11 @@ class LoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         start_time = time.time()
 
-        logger.info(
-            f"📥 Incoming request:\n"
-            f"→ {request.method} {request.url.path}\n"
-            f"→ From: {request.client.host if request.client else "unknown"}\n"
-        )
-
         response: Response = await call_next(request)
 
-        logger.info(
-            f"📤 Response:\n"
-            f"→ Status: {response.status_code}\n"
-            f"→ Duration: {(time.time() - start_time):.3f}s"
-        )
+        logger.info((
+            f"{request.client.host if request.client else 'unknown'} - "
+            f"\"{request.method} {request.url.path}\" "
+            f"{response.status_code} {HTTPStatus(response.status_code).phrase} ({(time.time() - start_time):.3f})"
+        ))
         return response
