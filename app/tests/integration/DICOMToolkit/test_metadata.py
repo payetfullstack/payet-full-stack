@@ -1,8 +1,12 @@
 from glob import glob
 import os
+
+from app.routers.DICOMToolkit.dicomToolkit import DICOM_TOOLKIT_ENDPOINT_NAME
 import pytest
 
-ANONIMIZED_TEST_DATA_RELATIVE_FOLDER = "../../../../test_data/Anonimized_DICOM/"
+ANONIMIZED_TEST_DATA_RELATIVE_FOLDER = "../../../../../test_data/Anonimized_DICOM/"
+BASE_URL = DICOM_TOOLKIT_ENDPOINT_NAME + "/metadata"
+
 
 def get_zip_test_cases():
     base_dir = os.path.dirname(__file__)
@@ -19,13 +23,13 @@ def get_zip_test_cases():
 
 @pytest.mark.parametrize("modality, zip_file_path", get_zip_test_cases())
 def test_get_modality_happy_path(client, modality, zip_file_path):
-    """Test the metadata/get_metadata endpoint"""
+    """Test the dicom-toolkit/metadata/get-metadata endpoint"""
 
     assert os.path.exists(zip_file_path), f"Test file not found: {zip_file_path}"
 
     with open(zip_file_path, "rb") as f:
         response = client.post(
-            "/metadata/get_modality",
+            f"{BASE_URL}/get-modality",
             files={"zipfile": (zip_file_path, f, "application/zip")},
         )
 

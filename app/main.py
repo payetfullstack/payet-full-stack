@@ -1,15 +1,16 @@
 import os
 from app.utils.logger import LoggingMiddleware
 from fastapi import FastAPI, Response
-from .routers import metadata
+from .routers.DICOMToolkit import dicomToolkit
 from dotenv import load_dotenv
 
 # Load env variables from .env
 load_dotenv()
 
 app = FastAPI()
-app.include_router(metadata.router)
+app.include_router(dicomToolkit.router)
 
+# Common logs fore each request. Already in Render
 if os.getenv("DEBUG_MODE", 0):
     app.add_middleware(LoggingMiddleware)
 

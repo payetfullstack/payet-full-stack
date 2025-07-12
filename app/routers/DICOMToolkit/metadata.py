@@ -1,20 +1,16 @@
 import os
 from app.utils.dicom_utils import find_first_dicom
 from app.utils.zip_utils import safe_extract_zip
-from fastapi import APIRouter, Depends, UploadFile, HTTPException
+from fastapi import APIRouter, UploadFile, HTTPException
 import tempfile
 from app.utils.logger import logger
 
-from ..dependencies import get_rapidapi_token_header
-
 router = APIRouter(
     prefix="/metadata",
-    tags=["metadata"],
-    dependencies=[Depends(get_rapidapi_token_header)],
-    responses={404: {"description": "Not found"}},
+    tags=["metadata"]
 )
 
-@router.post("/get_modality")
+@router.post("/get-modality")
 async def get_modality(zipfile: UploadFile):
     """
     Extract the image modality of the given zip file.
