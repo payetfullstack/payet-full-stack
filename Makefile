@@ -34,8 +34,9 @@ build:
 	docker build -t $(IMAGE_NAME) .
 	@image_size=$$(docker images --format "{{.Size}}" $(IMAGE_NAME):latest); \
 	echo "Image size: $$image_size"; \
-	image_size_num=$$(echo $$image_size | sed 's/MB//;s/GB/*1024/;s/ //g' | bc); \
-	image_size_limit=200; \
-	if [ $$image_size_num -gt $$image_size_limit ]; then \
+	image_size_num=$$(echo $$image_size | sed -E 's/([0-9.]+)MB/\1/; s/([0-9.]+)GB/(\1*1024)/' | bc -l); \
+	image_size_limit=200.0; \
+	exceeds_limit=$$(echo "$$image_size_num > $$image_size_limit" | bc -l); \
+	if [ "$$exceeds_limit" = "1" ]; then \
 		echo "${red}WARNING: Image size exceeds $$image_size_limit MB!${clear}"; \
 	fi
