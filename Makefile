@@ -14,6 +14,11 @@ test_unit:
 	echo "Running unit tests..."
 	. $(VENV) && pytest app/tests/unit/
 
+test_unit_build:
+	-docker rmi $(IMAGE_NAME)-test
+	echo "Running unit tests inside a docker container..."
+	docker build -f Dockerfile.test -t $(IMAGE_NAME)-test .
+
 install:
 	echo "Installing dependencies..."
 	. $(VENV) && pip install -r requirements.txt

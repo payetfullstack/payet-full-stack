@@ -1,4 +1,5 @@
-# Dockerfile used to create the Google Artifacts Registry image
+# Dockerfile used to run tests inside the built image
+# · requirements.txt must be different
 #
 # Dockerfile is Multi-Stage to minimize junk
 # Use a .dockerignore to minimize files to copy
@@ -9,13 +10,18 @@
 FROM python:3.12-alpine AS builder
 WORKDIR /app
 RUN apk add --no-cache build-base
-COPY requirements.txt .
-RUN pip install --prefix=/install --no-cache-dir -r requirements.txt
+COPY requirements-build-tests.txt .
+RUN pip install --prefix=/install --no-cache-dir -r requirements-build-tests.txt
 
 # Stage 2: Run
-FROM python:3.12-alpine
+FROM python:3.12-alpine AS base
 WORKDIR /app
 COPY --from=builder /install /usr/local
 COPY . .
 EXPOSE 8000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Stage 3: Tests
+FROM base AS test
+RUN \
+    pytest app/tests/unit/
