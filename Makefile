@@ -24,11 +24,11 @@ update_requirements_txt:
 	echo "Running pipreqs to update requirements.txt..."
 	bash -c "source $(VENV) && pipreqs . --force"
 
-delete_build:
+docker_delete_build:
 	echo "Deleting image..."
 	docker rmi $(IMAGE_NAME)
 
-build:
+docker_build:
 	@$(MAKE) -s delete_build || true
 	echo "Building image..."
 	docker build -t $(IMAGE_NAME) .
@@ -40,3 +40,10 @@ build:
 	if [ "$$exceeds_limit" = "1" ]; then \
 		echo "${red}WARNING: Image size exceeds $$image_size_limit MB!${clear}"; \
 	fi
+
+docker_run: docker_build
+	. ./.env && \
+	export `sed -e 's/=.*$$//' -e '/^#/d' .env` && \
+	docker run --rm --network=host \
+	--env-file .env \
+	--name backend $(IMAGE_NAME):latest
