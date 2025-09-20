@@ -24,12 +24,12 @@ update_requirements_txt:
 	echo "Running pipreqs to update requirements.txt..."
 	bash -c "source $(VENV) && pipreqs . --force"
 
-docker_delete_build:
-	echo "Deleting image..."
-	docker rmi $(IMAGE_NAME)
+docker_prune:
+	echo "Deleting any image or container with prune..."
+	yes | docker system prune -a
 
 docker_build:
-	@$(MAKE) -s delete_build || true
+	@$(MAKE) -s docker_prune || true
 	echo "Building image..."
 	docker build -t $(IMAGE_NAME) .
 	@image_size=$$(docker images --format "{{.Size}}" $(IMAGE_NAME):latest); \
@@ -41,9 +41,19 @@ docker_build:
 		echo "${red}WARNING: Image size exceeds $$image_size_limit MB!${clear}"; \
 	fi
 
+# Run the backend in a dockerized image
+# NOTE: IMAGES DO NOT GET DELETED AT THE END
 docker_run: docker_build
 	. ./.env && \
 	export `sed -e 's/=.*$$//' -e '/^#/d' .env` && \
 	docker run --rm --network=host \
 	--env-file .env \
 	--name backend $(IMAGE_NAME):latest
+	@$(MAKE) -s docker_prune || true
+
+# Run unit tests inside the docker container. Delete container+iamge right after
+docker_test_unit:
+	@$(MAKE) -s docker_prune || true
+	docker build --target test -t $(IMAGE_NAME):test . && \
+	docker run --rm --env-file .env $(IMAGE_NAME):test && \
+	@$(MAKE) -s docker_prune || true

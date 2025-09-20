@@ -4,7 +4,7 @@ import os
 from app.routers.DICOMToolkit.dicomToolkit import DICOM_TOOLKIT_ENDPOINT_NAME
 import pytest
 
-ANONIMIZED_TEST_DATA_RELATIVE_FOLDER = "../../../../../test_data/Anonimized_DICOM/"
+ANONIMIZED_TEST_DATA_RELATIVE_FOLDER = "../../test_data/Anonimized_DICOM/"
 BASE_URL = DICOM_TOOLKIT_ENDPOINT_NAME + "/metadata"
 
 
@@ -25,6 +25,7 @@ def get_zip_test_cases():
 def test_get_modality_happy_path(client, modality, zip_file_path):
     """Test the dicom-toolkit/metadata/get-metadata endpoint"""
 
+    assert zip_file_path is not None, "Please check test data location"
     assert os.path.exists(zip_file_path), f"Test file not found: {zip_file_path}"
 
     with open(zip_file_path, "rb") as f:
@@ -33,5 +34,5 @@ def test_get_modality_happy_path(client, modality, zip_file_path):
             files={"zipfile": (zip_file_path, f, "application/zip")},
         )
 
-    assert response.status_code == 200
+    assert response.status_code == 200, f"response.json(): {response.json()}"
     assert response.json() == {"modality": modality}
