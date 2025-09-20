@@ -21,7 +21,7 @@ def get_zip_test_cases():
 
     return test_cases
 
-@pytest.mark.parametrize("modality, zip_file_path", get_zip_test_cases())
+@pytest.mark.parametrize("modality, zip_file_path", get_zip_test_cases() or [("dummy", None)])
 def test_get_modality_happy_path(client, modality, zip_file_path):
     """Test the dicom-toolkit/metadata/get-metadata endpoint"""
 
