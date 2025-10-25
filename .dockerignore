@@ -1,0 +1,12 @@
+__pycache__/
+.pytest_cache/
+TODOlist.txt
+*.md
+*.pyc
+.git
+tests
+docs
+.env
+.env.example
+venv/
+LICENSE

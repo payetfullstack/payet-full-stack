@@ -25,5 +25,5 @@ def test_dicom_toolkit_endpoints_require_auth():
         for method in methods:
             response = client.request(method, path)
             assert response.status_code == 401, (
-                f"{method} {path} did not return 401, got {response.status_code}"
+                f"{method} {path} did not return 401, got {response.status_code}: {response.json()}"
             )

@@ -1,6 +1,10 @@
 # Path to local venv
 VENV=venv/bin/activate
-
+# Name of the built image
+IMAGE_NAME=adria-full-stack-image
+# Colors
+clear=\033[0m
+red=\033[31m
 
 run_backend:
 	echo "Running FastAPI with Uvicorn..."
@@ -12,10 +16,44 @@ test_unit:
 
 install:
 	echo "Installing dependencies..."
-	. $(VENV) && pip install -r requirements.txt
+	. $(VENV) && pip install -r requirements.txt && pip install -r requirements-dev.txt
 
 update_requirements_txt:
 	echo "Checking if pipreqs is installed..."
 	bash -c "source $(VENV) && (pip show pipreqs > /dev/null 2>&1 || pip install pipreqs)"
 	echo "Running pipreqs to update requirements.txt..."
 	bash -c "source $(VENV) && pipreqs . --force"
+
+docker_prune:
+	echo "Deleting any image or container with prune..."
+	yes | docker system prune -a
+
+docker_build:
+	@$(MAKE) -s docker_prune || true
+	echo "Building image..."
+	docker build -t $(IMAGE_NAME) .
+	@image_size=$$(docker images --format "{{.Size}}" $(IMAGE_NAME):latest); \
+	echo "Image size: $$image_size"; \
+	image_size_num=$$(echo $$image_size | sed -E 's/([0-9.]+)MB/\1/; s/([0-9.]+)GB/(\1*1024)/' | bc -l); \
+	image_size_limit=200.0; \
+	exceeds_limit=$$(echo "$$image_size_num > $$image_size_limit" | bc -l); \
+	if [ "$$exceeds_limit" = "1" ]; then \
+		echo "${red}WARNING: Image size exceeds $$image_size_limit MB!${clear}"; \
+	fi
+
+# Run the backend in a dockerized image
+# NOTE: IMAGES DO NOT GET DELETED AT THE END
+docker_run: docker_build
+	. ./.env && \
+	export `sed -e 's/=.*$$//' -e '/^#/d' .env` && \
+	docker run --rm --network=host \
+	--env-file .env \
+	--name backend $(IMAGE_NAME):latest
+	@$(MAKE) -s docker_prune || true
+
+# Run unit tests inside the docker container. Delete container+iamge right after
+docker_test_unit:
+	@$(MAKE) -s docker_prune || true
+	docker build --target test -t $(IMAGE_NAME):test . && \
+	docker run --rm --env-file .env $(IMAGE_NAME):test && \
+	@$(MAKE) -s docker_prune || true

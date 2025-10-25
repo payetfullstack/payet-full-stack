@@ -1,0 +1,5 @@
+- SInce we run our own cloud, we can include the test data in the repo too.
+  BE CAREFUL and make sure the data is inside the /test folder
+  and the .dockerignore is ignoring those files (check build size after make build)
+
+- Try not to always use docker prune in make commands, something softer. Keep a command just in case
