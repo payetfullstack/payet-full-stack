@@ -8,3 +8,5 @@ steps:
         echo "Repository: $REPO_NAME"
         echo "Branch: $BRANCH_NAME"
         echo "Commit: $COMMIT_SHA"
+options:
+  logging: CLOUD_LOGGING_ONLY
