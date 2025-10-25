@@ -8,5 +8,7 @@ steps:
         echo "Repository: $REPO_NAME"
         echo "Branch: $BRANCH_NAME"
         echo "Commit: $COMMIT_SHA"
+
+# Must have since the custom SA doesn't have specified where to store logs
 options:
   logging: CLOUD_LOGGING_ONLY
