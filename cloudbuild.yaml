@@ -1,0 +1,10 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "OKAY! Cloud Build trigger test successful!"
+        echo "Repository: $REPO_NAME"
+        echo "Branch: $BRANCH_NAME"
+        echo "Commit: $COMMIT_SHA"
