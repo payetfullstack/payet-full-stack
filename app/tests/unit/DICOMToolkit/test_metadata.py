@@ -4,7 +4,7 @@ import os
 from app.routers.DICOMToolkit.dicomToolkit import DICOM_TOOLKIT_ENDPOINT_NAME
 import pytest
 
-ANONIMIZED_TEST_DATA_RELATIVE_FOLDER = "../../test_data/Anonimized_DICOM/"
+ANONIMIZED_TEST_DATA_RELATIVE_FOLDER = "../../test_data/anonimized_dicom/"
 BASE_URL = DICOM_TOOLKIT_ENDPOINT_NAME + "/metadata"
 
 

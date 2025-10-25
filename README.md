@@ -17,7 +17,7 @@ Or can be run in a dockerized container:
 ```make docker_test_unit```
 
 NOTE: Not all test data can be stored i the GitHub. Any msissing data can be found at Google Drive. As per now, the files not added in google Drive are:
-- Anonimized_DICOM
+- anonimized_dicom
   - CT
     - ThoraxRoutine--10.0--B70f.zip
   - MR
@@ -31,7 +31,7 @@ NOTE: Not all test data can be stored i the GitHub. Any msissing data can be fou
   - US
     - 1.2.826.0.1.3680043.8.1055.1.20131219224620253.58545162.94269574.zip
     - Ultrasound.zip
-- NonAnonimized_DICOM
+- non_anonimized_dicom
   - TAC.zip
 
 

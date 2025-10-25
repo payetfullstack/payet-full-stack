@@ -16,7 +16,7 @@ test_unit:
 
 install:
 	echo "Installing dependencies..."
-	. $(VENV) && pip install -r requirements.txt
+	. $(VENV) && pip install -r requirements.txt && pip install -r requirements-dev.txt
 
 update_requirements_txt:
 	echo "Checking if pipreqs is installed..."
