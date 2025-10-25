@@ -42,3 +42,9 @@ Be very carfull with filling the computer's space with the docker images/contain
 If any issue happens while pulling images, tr to upgrade the docker CLI. To delete any existing docker image/container, run:
 
 ```docker system prune -a```
+
+# Package management
+
+Two requirements.txt are being used in this project:
+- requirements.txt: Necessary libraries to run the backend in a docker container
+- requirements-dev.txt: Extra libraries in order to run the backend locally or run test over the backend
