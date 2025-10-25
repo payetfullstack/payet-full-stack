@@ -4,7 +4,7 @@ steps:
     args:
       - '-c'
       - |
-        echo "OKAY! Cloud Build trigger test successful!"
+        echo "Okay! Cloud Build trigger test successful!"
         echo "Repository: $REPO_NAME"
         echo "Branch: $BRANCH_NAME"
         echo "Commit: $COMMIT_SHA"
