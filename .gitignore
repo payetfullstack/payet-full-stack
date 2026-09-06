@@ -3,5 +3,5 @@ __pycache__/
 .env
 .pytest_cache/
 *.Identifier
-non_anonimized_dicom/
-anonimized_dicom/
+non_anonymized_dicom/
+anonymized_dicom/
