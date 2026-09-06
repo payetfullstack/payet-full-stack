@@ -1,6 +1,9 @@
+"""
+Authentication and Security Tests for all the DICOM Toolkit Endpoints.
+"""
 from fastapi.testclient import TestClient
 
-from app.routers.DICOMToolkit.dicomToolkit import DICOM_TOOLKIT_ENDPOINT_NAME
+from app.routers.DICOMToolkit.dicom_toolkit import DICOM_TOOLKIT_ENDPOINT_NAME
 from ....main import app
 
 
