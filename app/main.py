@@ -14,7 +14,11 @@ from dotenv import load_dotenv
 # Load env variables from .env
 load_dotenv()
 
-app = FastAPI()
+app = FastAPI(
+    title="Multi-API SaaS Hub & DICOM Toolkit",
+    description="Stateless microservice backend for medical imaging utilities.",
+    version="0.1.0-beta",
+)
 
 # Middleware & Routing
 app.include_router(dicom_toolkit.router)
