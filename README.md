@@ -49,6 +49,18 @@ definitions while maintaining domain isolation.
   └─────────────────────────┘  └──────────────────────────┘
 ```
 
+
+## 🗺️ Product Roadmap & Upcoming Features
+
+This repository is currently in **Beta (`v0.1.0-beta`)**. Core multi-API infrastructure, security validation, and DICOM
+metadata parsing are fully functional. High-level future enhancements are tracked below:
+
+- Full develop of the cloudbuild YAML file to build and store the backend image in Google Artifacts.
+- Create a CHANGELOG file once the first release version is ready.
+- New endpoint features (data extraction non PHI, anonymation verification, DICOM conversion to new formats...).
+- Improve package management with UV or Poetry.
+
+
 ## DICOM Toolkit API
 
 ### 💡 Business Objective & Core Features
