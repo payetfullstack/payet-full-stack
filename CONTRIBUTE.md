@@ -1,40 +1,78 @@
-# Setup
+# Contributing Guidelines
 
-## Create a Python Virtual Environment
+Thank you for reviewing or contributing to the project.
 
-This project works with Python v3.12.3.
+---
 
-To create a local python environment, run:
-```python3 -m venv venv```
+## Local Development Setup
 
-To activate it, you can run:
+### Prerequisites
+* **Python:** v3.11
+* **Docker:** Required for containerized testing and GKE deployment simulation
+* **GNU Make:** Recommended for executing automated task shortcuts
 
-```source venv/bin/activate```
+### Environment Setup
 
-## Install dependencies
+Clone the repository and set up a clean Python virtual environment:
 
-```make install```
+```bash
+# Create virtual environment
+python3 -m venv venv
 
-or
+# Activate the environment (Linux/macOS)
+source venv/bin/activate
 
-```pip install -r requirements.txt```
+# On Windows (PowerShell):
+# .\venv\Scripts\Activate.ps1
+```
 
-## Download first FastAPI version. DO NOT REPLICATE
+### 2. Install Dependencies
 
-Inside the Python Virtual Environment:
+Install both runtime and development/testing dependencies using make or pip:
+```Bash
 
-```pip install fastapi uvicorn```
+# Using Makefile shortcut
+make install
 
-Optional: If you want automatic reload while developing:
+# Or manually via pip
+pip install --upgrade pip
+pip install -r requirements.txt -r requirements-dev.txt
+```
 
-```pip install "uvicorn[standard]"```
+### 3. Environment Variables Configuration
 
-# Update requirements.txt
+Create a .env file in the project root directory containing mock or valid authentication secrets:
+```Bash
 
-Make sure you have installed:
+X_RAPIDAPI_PROXY_SECRET_NAME=X-RapidAPI-Proxy-Secret
+X_RAPIDAPI_PROXY_SECRET_VALUE=default-secret-key
+```
 
-```pip install pipreqs```
+### 4. Running the Application Locally
 
-Then run:
+Start the local Uvicorn development server with hot-reloading enabled:
+```Bash
 
-```pipreqs .```
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Access the interactive API documentation at:
+    Swagger UI: http://localhost:8000/docs
+    ReDoc: http://localhost:8000/redoc
+
+### 5. Testing & Code Quality Guidelines
+
+Before submitting a pull request or committing changes, ensure all unit and security tests pass cleanly.
+```Bash
+
+# Run unit tests locally
+make test_unit
+
+# Run tests in an isolated Docker environment
+make docker_test_unit
+```
+
+### 6. Dependency Management Policy
+
+- Production Dependencies: Add runtime libraries to requirements.txt with explicitly pinned versions.
+- Development Dependencies: Add testing, linting, or profiling tools to requirements-dev.txt.
