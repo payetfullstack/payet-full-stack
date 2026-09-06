@@ -1,3 +1,9 @@
+"""
+DICOM File Helper Utilities.
+
+Provides utility functions for searching, inspecting, and reading DICOM 
+files within directory trees.
+"""
 import os
 import pydicom
 
@@ -12,8 +18,12 @@ def find_first_dicom(directory: str, stop_before_pixels=True):
         for name in files:
             file_path = os.path.join(root, name)
             try:
-                dicom_data = pydicom.dcmread(file_path, stop_before_pixels=stop_before_pixels)
-                return dicom_data
-            except Exception:
+                # Attempts to parse file header and metadata
+                return pydicom.dcmread(file_path, stop_before_pixels=stop_before_pixels)
+            except (InvalidDicomError, IsADirectoryError, PermissionError):
+                # Ignore non-DICOM files or unreadable entries and keep searching
                 continue
+            except Exception:
+                # Reraise unexpected errors (e.g., system out-of-memory)
+                raise
     return None

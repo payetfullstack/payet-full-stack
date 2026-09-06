@@ -1,3 +1,11 @@
+"""
+DICOM Toolkit Router Setup.
+
+Configures the base APIRouter for the DICOM Toolkit endpoints, applying
+global dependencies and linking sub-routers
+such as metadata endpoints.
+"""
+
 from fastapi import APIRouter, Depends
 from . import metadata
 from ...dependencies import get_rapidapi_token_header

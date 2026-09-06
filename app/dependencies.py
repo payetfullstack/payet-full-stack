@@ -1,3 +1,6 @@
+"""
+Authentication and Authorization Dependencies.
+"""
 from fastapi import HTTPException, Request
 import os
 

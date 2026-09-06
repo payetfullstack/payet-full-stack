@@ -1,3 +1,10 @@
+"""
+DICOM Metadata Operations Router.
+
+Handles API endpoints for reading, extracting, modifying, and searching 
+DICOM metadata, including inspecting modality tags, injecting metadata attributes, 
+and finding metadata patterns within uploaded datasets or archives.
+"""
 import os
 from app.utils.dicom_utils import find_first_dicom
 from app.utils.zip_utils import safe_extract_zip
